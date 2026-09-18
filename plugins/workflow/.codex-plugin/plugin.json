@@ -1,0 +1,19 @@
+{
+	"name": "workflow",
+	"version": "1.0.0",
+	"description": "Reusable engineering reviews, audits, handoffs, and maintenance workflows",
+	"author": { "name": "AppElent" },
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["workflow", "review", "audit", "maintenance", "agents"],
+	"skills": "./skills/",
+	"interface": {
+		"displayName": "AppElent Workflow",
+		"shortDescription": "Run reusable engineering workflows.",
+		"longDescription": "Codebase reviews, product audits, dependency upgrades, handoffs, model selection, and self-improvement workflows.",
+		"developerName": "AppElent",
+		"category": "Productivity",
+		"capabilities": ["Skills"],
+		"defaultPrompt": ["Choose and run the right engineering workflow."]
+	}
+}

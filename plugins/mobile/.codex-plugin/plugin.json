@@ -1,0 +1,19 @@
+{
+	"name": "mobile",
+	"version": "1.0.0",
+	"description": "Mobile product, React Native, Expo, QA, and release guidance",
+	"author": { "name": "AppElent" },
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["mobile", "react-native", "expo", "ios", "android"],
+	"skills": "./skills/",
+	"interface": {
+		"displayName": "AppElent Mobile",
+		"shortDescription": "Build and review native mobile apps.",
+		"longDescription": "Mobile product design, React Native and Expo guidance, code audits, iOS QA, and release readiness.",
+		"developerName": "AppElent",
+		"category": "Developer Tools",
+		"capabilities": ["Skills"],
+		"defaultPrompt": ["Help me build a native-feeling mobile app."]
+	}
+}

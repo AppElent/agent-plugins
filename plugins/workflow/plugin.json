@@ -1,0 +1,11 @@
+{
+	"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+	"name": "workflow",
+	"version": "1.0.0",
+	"description": "Reusable engineering reviews, audits, handoffs, and maintenance workflows",
+	"author": { "name": "AppElent", "url": "https://github.com/AppElent" },
+	"homepage": "https://github.com/AppElent/agent-plugins/tree/main/plugins/workflow",
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["workflow", "review", "audit", "maintenance", "agents"]
+}

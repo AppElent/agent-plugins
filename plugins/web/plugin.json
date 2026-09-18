@@ -1,0 +1,11 @@
+{
+	"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+	"name": "web",
+	"version": "1.0.0",
+	"description": "AppElent web features for TanStack, Convex, Clerk, and Cloudflare",
+	"author": { "name": "AppElent", "url": "https://github.com/AppElent" },
+	"homepage": "https://github.com/AppElent/agent-plugins/tree/main/plugins/web",
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["web", "tanstack", "convex", "clerk", "cloudflare"]
+}

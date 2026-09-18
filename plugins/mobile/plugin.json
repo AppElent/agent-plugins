@@ -1,0 +1,11 @@
+{
+	"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+	"name": "mobile",
+	"version": "1.0.0",
+	"description": "Mobile product, React Native, Expo, QA, and release guidance",
+	"author": { "name": "AppElent", "url": "https://github.com/AppElent" },
+	"homepage": "https://github.com/AppElent/agent-plugins/tree/main/plugins/mobile",
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["mobile", "react-native", "expo", "ios", "android"]
+}

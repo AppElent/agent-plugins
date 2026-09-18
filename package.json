@@ -1,0 +1,21 @@
+{
+	"name": "agent-plugins",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"description": "The AppElent marketplace for portable AI agent plugins",
+	"scripts": {
+		"build": "pnpm -r --if-present build",
+		"test": "pnpm -r --if-present test && node --test tests/*.test.mjs",
+		"typecheck": "pnpm -r --if-present typecheck",
+		"lint": "biome check .",
+		"validate": "node scripts/validate.mjs",
+		"check": "pnpm validate && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+		"setup:codex": "node scripts/setup-codex.mjs",
+		"setup:codex:dev": "node scripts/setup-codex.mjs --dev"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.0"
+	},
+	"packageManager": "pnpm@10.17.1"
+}

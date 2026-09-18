@@ -1,0 +1,7 @@
+{
+	"name": "mobile",
+	"version": "1.0.0",
+	"description": "Mobile product, React Native, Expo, QA, and release guidance",
+	"author": { "name": "AppElent" },
+	"repository": "https://github.com/AppElent/agent-plugins"
+}

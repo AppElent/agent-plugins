@@ -1,0 +1,7 @@
+{
+	"name": "workflow",
+	"version": "1.0.0",
+	"description": "Reusable engineering reviews, audits, handoffs, and maintenance workflows",
+	"author": { "name": "AppElent" },
+	"repository": "https://github.com/AppElent/agent-plugins"
+}

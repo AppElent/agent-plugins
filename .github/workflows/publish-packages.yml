@@ -1,0 +1,32 @@
+name: Publish packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package directory name under packages/
+        required: true
+        type: choice
+        options: [auth, cli, i18n]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+          scope: "@appelent"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter "@appelent/${{ inputs.package }}" build
+      - run: pnpm --filter "@appelent/${{ inputs.package }}" publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

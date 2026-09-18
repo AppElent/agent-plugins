@@ -1,0 +1,22 @@
+{
+	"name": "appelent",
+	"description": "Portable development plugins from AppElent",
+	"owner": { "name": "AppElent" },
+	"plugins": [
+		{
+			"name": "mobile",
+			"source": "./plugins/mobile",
+			"description": "Mobile product, React Native, Expo, QA, and release guidance"
+		},
+		{
+			"name": "web",
+			"source": "./plugins/web",
+			"description": "AppElent web features for TanStack, Convex, Clerk, and Cloudflare"
+		},
+		{
+			"name": "workflow",
+			"source": "./plugins/workflow",
+			"description": "Reusable engineering reviews, audits, handoffs, and maintenance workflows"
+		}
+	]
+}

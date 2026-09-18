@@ -1,0 +1,19 @@
+{
+	"name": "web",
+	"version": "1.0.0",
+	"description": "AppElent web features for TanStack, Convex, Clerk, and Cloudflare",
+	"author": { "name": "AppElent" },
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["web", "tanstack", "convex", "clerk", "cloudflare"],
+	"skills": "./skills/",
+	"interface": {
+		"displayName": "AppElent Web",
+		"shortDescription": "Apply AppElent web capabilities.",
+		"longDescription": "Package-backed features and integration guidance for TanStack Start, Convex, Clerk, and Cloudflare applications.",
+		"developerName": "AppElent",
+		"category": "Developer Tools",
+		"capabilities": ["Skills"],
+		"defaultPrompt": ["Apply an AppElent web feature."]
+	}
+}
