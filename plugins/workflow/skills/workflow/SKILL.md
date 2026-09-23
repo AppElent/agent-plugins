@@ -17,7 +17,9 @@ Route the request to one owner:
 - `review-app` or `review-session`: autonomous or collaborative app review.
 - `self-improve`: extract durable lessons from agent work.
 - `the-orca-way`: use Orca-managed execution when explicitly requested.
-- `upgrade-deps`: upgrade project dependencies safely.
+- `upgrade-deps`: upgrade web and general project dependencies safely.
+- `upgrade-deps-mobile`: upgrade Expo or React Native dependencies as a
+  compatible framework set, with a patch/minor-only or include-majors scope.
 - `usage-audit`: evaluate behavior against metered-service quotas.
 
 For `list`, summarize these routes. For `show <skill>`, load that skill and
