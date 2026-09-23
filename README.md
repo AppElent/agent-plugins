@@ -1,53 +1,46 @@
 # AppElent Agent Plugins
 
-One marketplace for AppElent's portable AI agent plugins. The same skill
-content is packaged for Claude Code and Codex.
+One marketplace, four goal-based plugins. The same skill content is packaged for Claude Code and Codex.
 
-| Plugin | Purpose | Claude Code entry points |
+| Plugin | Purpose | Entry points |
 | --- | --- | --- |
-| `mobile` | Mobile design, React Native/Expo, QA, audits, and release | `/mobile:skill` |
-| `web` | TanStack/Convex/Clerk/Cloudflare features and `@appelent/*` packages | `/web:feature`, `/web:project` |
-| `workflow` | Reviews, audits, handoffs, maintenance, and agent workflows | `/workflow:skill` |
+| development | App-wide setup, auth, i18n, developer tooling, feature capture, toolkit maintenance | /development:feature, /development:project, /development:dev, /development:capture-feature, /development:repo |
+| web | Web baseline implementation, browser localization, MCP | /web:feature, /web:project |
+| mobile | Native foundation, design, QA, audits, release | /mobile:skill |
+| workflow | Reviews, workflow lessons, codebase scans, handoffs | /workflow:skill, /workflow:scan-codebase |
+
+The CLI and runtime implementation are maintained in [appelent-packages](https://github.com/AppElent/appelent-packages). Installing a plugin supplies agent guidance, not those executables.
 
 ## Install
 
-### Claude Code
+Claude Code:
 
-```bash
+```text
 claude plugin marketplace add AppElent/agent-plugins
-claude plugin install mobile@appelent
+claude plugin install development@appelent
 claude plugin install web@appelent
+claude plugin install mobile@appelent
 claude plugin install workflow@appelent
 ```
 
-### Codex
+Codex:
 
-```bash
+```text
 codex plugin marketplace add https://github.com/AppElent/agent-plugins.git
-codex plugin add mobile@appelent
+codex plugin add development@appelent
 codex plugin add web@appelent
+codex plugin add mobile@appelent
 codex plugin add workflow@appelent
 ```
 
-The cross-platform helper runs the Codex commands for all three plugins:
+Install the goal plugins needed by the app. Development routes to web for its detailed web baseline and to mobile for native foundation; missing platform procedures are reported explicitly. The setup helper installs all four: pnpm setup:codex, or pnpm setup:codex:dev for this local marketplace. Start a new task after installing/updating skills.
 
-```bash
-pnpm setup:codex
-```
+## Shared app guidelines
 
-For local plugin development, use `pnpm setup:codex:dev`. Start a new task
-after installing or updating plugins so their skills reload.
+Versioned general, web, and mobile sets live in [guidelines/](guidelines/README.md). Export with pnpm guidelines:pack and use appelent guidelines plan/apply/check to deploy selected sets. Agents read the app's pinned copies and app-specific exceptions.
 
 ## Development
 
-```bash
-pnpm install
-pnpm check
-```
+Run pnpm install, then pnpm check. Each plugin has portable, Claude, and Codex manifests with matching versions. See [CONTRIBUTING.md](CONTRIBUTING.md) and [MIGRATION.md](MIGRATION.md).
 
-Each plugin has one portable root manifest plus thin Claude Code and Codex
-compatibility manifests. Keep the three versions equal within a plugin.
-Runtime package versions under `packages/` are independent.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for routing and release rules and
-[MIGRATION.md](MIGRATION.md) for the clean command-name migration.
+Existing runtime copies under packages/ and their publishing workflow remain transitional; registry/publisher cutover is a separate operation. New executable work belongs in appelent-packages.

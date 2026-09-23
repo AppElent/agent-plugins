@@ -16,6 +16,10 @@ Two kinds of obligation, and the first kind is the expensive one:
 2. **Account preconditions** — state across Apple's systems that must agree
    before any submit command works at all.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## Read this before you build auth, payments, or permissions
 
 Not before you submit. These three decisions are the ones that get rebuilt:

@@ -7,6 +7,9 @@ description: Front door for reusable engineering workflows. Use when the user as
 
 Route the request to one owner:
 
+
+
+- `scan-codebase`: source-backed adoption gaps, engineering improvements, and product hypotheses.
 - `cleaning-up-codebases`: structural cruft and architectural drift.
 - `feature-gap-analysis`: competitor-backed product gap analysis.
 - `handoff-session`: continue work in a fresh agent session.
@@ -20,6 +23,8 @@ Route the request to one owner:
 For `list`, summarize these routes. For `show <skill>`, load that skill and
 explain its contract. For `capture`, use `self-improve` and place reusable
 workflow knowledge in this plugin.
+
+For toolkit implementation or reusable feature capture, use development’s maintain-repo or capture-feature skill when available. If development is unavailable, report the required owner and preserve the task scope.
 
 ## Provider portability
 

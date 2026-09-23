@@ -1,7 +1,7 @@
 # Model notes
 
 **Last verified: 2026-09-08** — desk research against first-party vendor sources.
-Full report with a URL per claim: [`notes/model-landscape-2026-09.md`](../../../notes/model-landscape-2026-09.md).
+The original research report is not bundled. Verify dated claims against their primary sources before using them.
 
 Advisory only. The live roster wins on what exists and what efforts a model
 accepts — see the authority rule in `../SKILL.md`. This file claims only *what a

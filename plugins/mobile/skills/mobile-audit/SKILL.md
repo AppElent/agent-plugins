@@ -9,6 +9,10 @@ The rest of the mobile set assumes you're about to build something. This one
 assumes it already exists, possibly written by someone else, possibly a while
 ago.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## The reframe: measure drift, not conformance
 
 An existing app measured against `mobile-design` produces a hundred findings and

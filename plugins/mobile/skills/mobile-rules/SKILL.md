@@ -8,6 +8,10 @@ description: React Native / Expo audit checklist — 36 correctness, performance
 A checklist for **reading code you already have**. Run it when something is
 slow, before a release, or when asked to review a screen.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## Why this is an audit checklist and not a build guide
 
 Every rule below is a static claim about React Native written at a point in

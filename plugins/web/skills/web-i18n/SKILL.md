@@ -1,14 +1,15 @@
 ---
-name: i18n
-description: Use when adding internationalization to an Appelent TanStack Start + Clerk app, or extending an existing i18n setup with a new locale/feature area. Installs @appelent/i18n and scaffolds the app-specific wiring (message trees, root route, language toggle).
+name: web-i18n
+description: Use when wiring Appelent localization into a TanStack web target, including SSR, browser persistence, language controls, and optional Clerk synchronization.
 ---
 
 # i18n
 
+Read the app's docs/guidelines/shared/README.md and applicable sets when present, then docs/guidelines/app.md. The development plugin owns the i18n FEATURE record; this skill is the web procedure. Preserve its existing feature ID and versioned partial records. If that FEATURE owner is unavailable, report adoption evidence without guessing or stamping its version.
+
+
 Scaffolds internationalization for a TanStack Start + Clerk app using the
-shared `@appelent/i18n` package (GitHub Packages; source at
-`../../packages/i18n` relative to this file, i.e. `packages/i18n` at the
-root of this catalog repo checkout) for the engine, plus per-app
+shared `@appelent/i18n` package (read its installed README, or packages/i18n/README.md in an explicitly resolved appelent-packages checkout) for the engine, plus per-app
 scaffolding for the parts that can't be shared: message dictionaries and
 UI wiring.
 
@@ -370,9 +371,9 @@ recipe.
 ## Record the feature
 
 After the wiring commit compiles and tests pass, record in `appelent.json`
-at the app root (same commit as the wiring), including the locale choice:
+at the app root (same commit as the wiring), including the actual locale choice and verified targets. Read the owning FEATURE version from development; preserve existing options and other target evidence. If that owner is unavailable, report the verified wiring without guessing a version:
 
-    "i18n": { "version": 1, "options": { "locales": ["en", "nl"] } }
+    "i18n": { "version": <current development/i18n FEATURE version>, "options": { "locales": ["en", "nl"], "targets": ["web"] } }
 
 ## Self-improvement
 
@@ -381,5 +382,5 @@ When this skill's work is done, follow the reflection in
 or underspecified about *this skill* and offer to file it back to the catalog.
 Nothing noteworthy is the normal outcome — say nothing then.
 
-If you got here via `/web:feature apply i18n`, that run's own reflection
+If you got here via `/development:feature apply i18n`, that run's own reflection
 (`apply` step 6) already covers this skill — don't reflect twice.

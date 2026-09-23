@@ -1,0 +1,21 @@
+{
+	"name": "development",
+	"version": "1.1.0",
+	"description": "App-wide setup, auth, localization, and developer CLI guidance",
+	"author": {
+		"name": "AppElent"
+	},
+	"repository": "https://github.com/AppElent/agent-plugins",
+	"license": "MIT",
+	"keywords": ["development", "scaffolding", "auth", "i18n", "cli"],
+	"skills": "./skills/",
+	"interface": {
+		"displayName": "AppElent Development",
+		"shortDescription": "Set up and extend AppElent apps.",
+		"longDescription": "App-wide capabilities and CLI-backed development with local project guidelines.",
+		"developerName": "AppElent",
+		"category": "Developer Tools",
+		"capabilities": ["Skills"],
+		"defaultPrompt": ["Set up or extend an AppElent app."]
+	}
+}

@@ -1,6 +1,6 @@
 ---
 name: auth
-version: 1
+version: 3
 description: Clerk-based authentication UI and theming shared across Appelent apps
 package: "@appelent/auth"
 ---
@@ -11,10 +11,12 @@ package: "@appelent/auth"
 
 Shared authentication chrome and theming for Appelent apps: a router-free,
 config-driven `HeaderUser` component, theme tokens (`tokens.css`), and
-	HEME_INIT_SCRIPT` for no-flash theme initialization. Clerk provides the
+`THEME_INIT_SCRIPT` for no-flash theme initialization. Clerk provides the
 actual auth; Convex consumes it via the JWT template named `convex`.
 
 ## Stack
+
+- Native option: `@appelent/auth/native` headless helpers; apps supply Clerk and secure-storage adapters, translated errors, navigation and provisioning. No Expo import is added to the web entry.
 
 - Package: `@appelent/auth` (GitHub Packages)
 - Auth provider: Clerk (`@clerk/clerk-react` peer dependency)
@@ -35,5 +37,9 @@ actual auth; Convex consumes it via the JWT template named `convex`.
 - `tokens.css` imported in the app's root stylesheet
 
 ## Changelog
+
+- 3 — Route app-wide adoption through development, load pinned local guidelines, and verify platform-specific coverage.
+
+- 2 — Separate native auth helpers and explicit app-owned adapter, copy and provisioning boundaries. Existing web integration remains supported.
 
 - 1 — initial capture

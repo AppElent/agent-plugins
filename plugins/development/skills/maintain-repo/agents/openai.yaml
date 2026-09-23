@@ -1,0 +1,4 @@
+interface:
+  display_name: "Appelent Repo Maintenance"
+  short_description: "Maintain Appelent packages, recipes and skills"
+  default_prompt: "Use $maintain-repo to implement and validate this change in appelent-packages."

@@ -19,6 +19,10 @@ The user may invoke these explicitly, for example:
 
 If the user's intent clearly matches one mode, use it without asking them to restate the mode.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## Core principle
 
 The full video is expensive context. Process it once during triage, convert useful moments into screenshots and short clips, and make later engineering work depend on those compact artifacts.

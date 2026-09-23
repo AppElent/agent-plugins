@@ -1,7 +1,9 @@
 {
 	"name": "appelent",
 	"description": "Portable development plugins from AppElent",
-	"owner": { "name": "AppElent" },
+	"owner": {
+		"name": "AppElent"
+	},
 	"plugins": [
 		{
 			"name": "mobile",
@@ -17,6 +19,11 @@
 			"name": "workflow",
 			"source": "./plugins/workflow",
 			"description": "Reusable engineering reviews, audits, handoffs, and maintenance workflows"
+		},
+		{
+			"name": "development",
+			"source": "./plugins/development",
+			"description": "App-wide setup, auth, localization, and developer CLI guidance"
 		}
 	]
 }

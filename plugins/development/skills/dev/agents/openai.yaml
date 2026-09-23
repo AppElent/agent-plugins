@@ -1,0 +1,4 @@
+interface:
+  display_name: "Appelent Developer CLI"
+  short_description: "Operate the Appelent developer CLI in an app"
+  default_prompt: "Use $dev to inspect this app and plan the requested Appelent CLI operation."

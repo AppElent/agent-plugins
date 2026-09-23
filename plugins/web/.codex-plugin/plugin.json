@@ -1,16 +1,18 @@
 {
 	"name": "web",
-	"version": "1.0.0",
-	"description": "AppElent web features for TanStack, Convex, Clerk, and Cloudflare",
-	"author": { "name": "AppElent" },
+	"version": "2.0.1",
+	"description": "Web implementation, TanStack integration, browser UI, and MCP",
+	"author": {
+		"name": "AppElent"
+	},
 	"repository": "https://github.com/AppElent/agent-plugins",
 	"license": "MIT",
 	"keywords": ["web", "tanstack", "convex", "clerk", "cloudflare"],
 	"skills": "./skills/",
 	"interface": {
 		"displayName": "AppElent Web",
-		"shortDescription": "Apply AppElent web capabilities.",
-		"longDescription": "Package-backed features and integration guidance for TanStack Start, Convex, Clerk, and Cloudflare applications.",
+		"shortDescription": "Implement and review AppElent web apps.",
+		"longDescription": "Browser-specific baseline and localization procedures, UI guidance, and MCP integration.",
 		"developerName": "AppElent",
 		"category": "Developer Tools",
 		"capabilities": ["Skills"],

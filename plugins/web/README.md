@@ -1,8 +1,7 @@
 # AppElent Web
 
-The AppElent feature catalog for TanStack Start, Convex, Clerk, and Cloudflare
-applications. Runtime libraries are maintained in the repository's
-`packages/` workspace.
+Web-specific implementation: the historical numbered TanStack/Convex/Clerk/Cloudflare baseline, browser localization wiring, and MCP integration. App-wide baseline/auth/i18n/CLI ownership is in development.
 
-Claude Code entry points: `/web:feature` and `/web:project`. Codex discovers
-the included skills from their descriptions.
+`/web:feature` selects web procedures and directs moved capabilities to `/development:feature`. `/web:project` inspects web evidence and app issues. Codex also discovers web-baseline and web-i18n by description.
+
+Read the app's pinned guideline sets before UI work. Runtime API contracts come from installed packages or an explicit appelent-packages source checkout, not relative paths out of this plugin.

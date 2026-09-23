@@ -9,6 +9,10 @@ Judgment, not mechanics. This skill decides **what the screen is and how it
 should feel**; the `expo-*` skills decide how to build it. Load both — this
 one first.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## Use this before the code, not after
 
 The most expensive mistake in mobile work is implementing a screen before

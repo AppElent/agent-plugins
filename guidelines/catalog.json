@@ -1,0 +1,21 @@
+{
+	"schemaVersion": 1,
+	"version": "1.0.0",
+	"sets": {
+		"general": {
+			"description": "Shared engineering and UI state decisions.",
+			"when": "For implementation or review, read engineering.md. For screens, forms, or asynchronous actions, also read ui-states.md.",
+			"files": ["engineering.md", "ui-states.md"]
+		},
+		"web": {
+			"description": "Browser interaction, layout, and accessibility.",
+			"when": "When building or reviewing browser UI, read interaction.md.",
+			"files": ["interaction.md"]
+		},
+		"mobile": {
+			"description": "Native navigation, device layout, and interaction.",
+			"when": "When building or reviewing native mobile screens, read interaction.md.",
+			"files": ["interaction.md"]
+		}
+	}
+}

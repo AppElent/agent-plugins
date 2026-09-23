@@ -1,6 +1,6 @@
 ---
 name: baseline
-version: 6
+version: 8
 description: The Appelent project baseline for TanStack Start + Convex + Clerk + Cloudflare Workers apps
 ---
 
@@ -27,14 +27,20 @@ clobber.
   GitHub issues using a server-only fine-grained token
 - PWA: `workbox-build`'s `generateSW` run as a plain post-build script (not
   `vite-plugin-pwa` — its Vite-hook integration is broken under this stack's
-  multi-environment build, see `SKILL.md` step 15 and
+  multi-environment build, see web-baseline step 15 and
   [TanStack/router#4988](https://github.com/TanStack/router/issues/4988)),
   precaching the static app shell only — never Convex/API traffic, so the
   service worker never fights Convex's real-time websocket sync
 
 ## Architecture
 
-See `SKILL.md` — it is the executable form of this baseline (scripts,
+Deterministic wiring runs through `@appelent/dev` recipes; app-owned
+source, design review and live verification remain explicit. Workspace
+setup renders backend-specific outputs instead of copying parent env files.
+Recipe configuration receipts and guideline reviews remain separate from
+legacy feature step records. Native mobile is an independent opt-in feature.
+
+See `SKILL.md` for routing and web-baseline in the web plugin for the numbered implementation (scripts,
 Convex env vars, wrangler config, Windows hygiene, PR preview workflow,
 pnpm migration, GitHub issue reporter scaffold, iOS input-focus-zoom
 prevention, and PWA manifest/service-worker wiring). The baseline also
@@ -51,6 +57,10 @@ owns stamping the managed block in `CLAUDE.md`/`AGENTS.md` and creating
   `GITHUB_REPOSITORY_NAME` or an equivalent app-local config source
 
 ## Changelog
+
+- 8 — Route app-wide adoption through development, load pinned local guidelines, and verify platform-specific coverage.
+
+- 7 — CLI-first mechanical wiring, isolated workspace preparation, scoped UI guidance and evidence-based partial adoption; preserve all 16 step numbers.
 
 - 6 — UI hygiene step (16): Base UI toast notifications, promise-based
   `useConfirm()` destructive-action dialog, skeleton + empty-state

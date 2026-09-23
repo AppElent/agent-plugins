@@ -1,0 +1,34 @@
+{
+	"baseline": {
+		"plugin": "development",
+		"skill": "baseline",
+		"procedure": {
+			"plugin": "web",
+			"skill": "web-baseline"
+		}
+	},
+	"auth": {
+		"plugin": "development",
+		"skill": "auth"
+	},
+	"i18n": {
+		"plugin": "development",
+		"skill": "i18n"
+	},
+	"cli": {
+		"plugin": "development",
+		"skill": "cli"
+	},
+	"dev": {
+		"plugin": "development",
+		"skill": "dev"
+	},
+	"mobile-foundation": {
+		"plugin": "mobile",
+		"skill": "mobile-foundation"
+	},
+	"mcp": {
+		"plugin": "web",
+		"skill": "mcp"
+	}
+}

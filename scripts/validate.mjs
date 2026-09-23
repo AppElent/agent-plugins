@@ -3,8 +3,10 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { validateFeatures, validateResources } from "./catalog.mjs";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const pluginNames = ["mobile", "web", "workflow"];
+const pluginNames = ["mobile", "web", "workflow", "development"];
 const semver = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const kebab = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const trigger = /\bUse (?:when|whenever|this|it|before|after|for)\b/i;
@@ -91,8 +93,16 @@ function validatePlugin(name) {
 	const commandsDir = join(dir, "commands");
 	const routes = {
 		mobile: { skill: "mobile" },
+		development: {
+			feature: "development-feature",
+			project: "development-project",
+			dev: "dev",
+			"capture-feature": "capture-feature",
+			repo: "maintain-repo",
+		},
 		web: { feature: "web-feature", project: "web-project" },
 		workflow: {
+			"scan-codebase": "scan-codebase",
 			skill: "workflow",
 			"cleaning-up-codebases": "cleaning-up-codebases",
 			"handoff-session": "handoff-session",
@@ -114,21 +124,11 @@ function validatePlugin(name) {
 	}
 }
 
-for (const name of pluginNames) validatePlugin(name);
-
-const workspacePackages = readdirSync(join(root, "packages"), {
-	withFileTypes: true,
-})
-	.filter((entry) => entry.isDirectory())
-	.map((entry) => json(join(root, "packages", entry.name, "package.json")).name)
-	.sort();
-if (
-	JSON.stringify(workspacePackages) !==
-	JSON.stringify(["@appelent/auth", "@appelent/cli", "@appelent/i18n"])
-)
-	errors.push(
-		"workspace packages must be @appelent/auth, @appelent/cli, and @appelent/i18n",
-	);
+for (const name of pluginNames) {
+	validatePlugin(name);
+	errors.push(...validateResources(join(root, "plugins", name)));
+}
+errors.push(...validateFeatures(root));
 
 const codexMarket = json(join(root, ".agents", "plugins", "marketplace.json"));
 const claudeMarket = json(join(root, ".claude-plugin", "marketplace.json"));
@@ -137,13 +137,19 @@ if (codexMarket.name !== "appelent" || claudeMarket.name !== "appelent")
 for (const market of [codexMarket, claudeMarket]) {
 	const names = market.plugins.map((entry) => entry.name);
 	if (JSON.stringify(names) !== JSON.stringify(pluginNames))
-		errors.push("marketplace plugins must be mobile, web, workflow in order");
+		errors.push(
+			"marketplace plugins must be mobile, web, workflow, development in order",
+		);
 }
 
 const allowedLegacy = new Set(["MIGRATION.md", "scripts/validate.mjs"]);
 const tracked = (() => {
 	try {
-		return execFileSync("git", ["ls-files"], { cwd: root, encoding: "utf8" })
+		return execFileSync(
+			"git",
+			["ls-files", "--cached", "--others", "--exclude-standard"],
+			{ cwd: root, encoding: "utf8" },
+		)
 			.trim()
 			.split(/\r?\n/)
 			.filter(Boolean);
@@ -154,9 +160,9 @@ const tracked = (() => {
 for (const file of tracked) {
 	if (allowedLegacy.has(file) || !/\.(?:md|json|mjs|ts|tsx)$/.test(file))
 		continue;
+	if (!existsSync(join(root, file))) continue;
 	const content = text(join(root, file));
 	for (const legacy of [
-		"AppElent/appelent-packages",
 		"AppElent/appelent-skills",
 		"/appelent:",
 		"/toolbox:",

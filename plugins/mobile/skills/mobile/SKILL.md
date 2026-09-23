@@ -14,6 +14,10 @@ every few weeks, and a second copy of it here would quietly start lying. What
 this skill owns is the part that doesn't move — sequencing, precedence, and
 three house rules.
 
+## App-local guidelines
+
+Before implementing or reviewing an app, read docs/guidelines/shared/README.md when present, load the relevant sets, then read docs/guidelines/app.md for app decisions and documented exceptions. These are the app's pinned rules. Report missing guideline setup when relevant; do not install or update it as a side effect of a UI review.
+
 ## Read this first: what this skill is not
 
 - **Not an Expo reference.** The official `expo-overview` skill routes 24
@@ -21,9 +25,7 @@ three house rules.
   from memory or from this file — load `expo-overview` and follow it.
 - **Not a replacement for the leaves.** Once you have routed, trust the leaf.
   Don't second-guess it with general React knowledge.
-- **Not a code-installer.** This skill leaves nothing behind in the app. If a
-  step would install a package or stamp a file, that's catalog territory —
-  see `/web:feature`.
+- **Foundation adoption** uses the local [mobile-foundation skill](../mobile-foundation/SKILL.md), which calls supported developer CLI recipes. App-wide capability selection belongs to development; device design and verification stay here.
 
 ## The four phases
 

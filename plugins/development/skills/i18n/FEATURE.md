@@ -1,6 +1,6 @@
 ---
 name: i18n
-version: 1
+version: 3
 description: Typed, dependency-light internationalization for TanStack Start apps via @appelent/i18n
 package: "@appelent/i18n"
 ---
@@ -16,11 +16,13 @@ app owns its `messages/{locale}/` trees and UI chrome (LanguageToggle).
 
 ## Stack
 
+- Native option: `@appelent/i18n/native` for app-supplied device locale and storage adapters. Existing SSR/web entry points stay separate; dictionaries and glossary remain app-owned.
+
 - Package: `@appelent/i18n` (GitHub Packages)
 - Options: `locales` — list per app (default example `["en", "nl"]`);
   `clerkSync: true | false` (only for apps using Clerk/@appelent/auth)
 - Deliberately not a full i18n library; migrate to one only past 2-3
-  locales or external translators (see SKILL.md notes)
+  locales or external translators (see the web-i18n procedure for web integration tradeoffs)
 
 ## Architecture
 
@@ -37,5 +39,9 @@ app owns its `messages/{locale}/` trees and UI chrome (LanguageToggle).
   metadata via `createLanguageSync`)
 
 ## Changelog
+
+- 3 — Route app-wide adoption through development, load pinned local guidelines, and verify platform-specific coverage.
+
+- 2 — Native synchronous-first-frame locale resolution and persistence adapter with app-owned messages.
 
 - 1 — initial capture (migrated from the `add-i18n` global skill)

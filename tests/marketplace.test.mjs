@@ -12,11 +12,11 @@ test("both marketplaces expose the same purpose plugins", () => {
 	assert.equal(claude.name, "appelent");
 	assert.deepEqual(
 		codex.plugins.map((entry) => entry.name),
-		["mobile", "web", "workflow"],
+		["mobile", "web", "workflow", "development"],
 	);
 	assert.deepEqual(
 		claude.plugins.map((entry) => entry.name),
-		["mobile", "web", "workflow"],
+		["mobile", "web", "workflow", "development"],
 	);
 });
 
@@ -27,6 +27,6 @@ test("Codex setup supports a side-effect-free development preview", () => {
 		{ encoding: "utf8" },
 	);
 	assert.match(output, /plugin.*marketplace.*add/);
-	for (const name of ["mobile", "web", "workflow"])
+	for (const name of ["mobile", "web", "workflow", "development"])
 		assert.match(output, new RegExp(`${name}@appelent`));
 });

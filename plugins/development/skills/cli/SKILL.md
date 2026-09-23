@@ -5,14 +5,15 @@ description: Use when adding a command-line interface to an Appelent app. CLI is
 
 # cli
 
+Read [working with apps](../../references/working-with-apps.md) for local guidelines and version-matched package documentation.
+
 CLI is an **active, package-owned** capability: `@appelent/cli`. It is no longer
 a candidate — do not write a design/plan from scratch or invent a local pattern.
 
 The source of truth for how to consume it is the package README (tool-agnostic,
 also what Codex reads), not this skill:
 
-- **Package + README**: `../../packages/cli` relative to this file (i.e.
-  `packages/cli` at the root of this catalog repo checkout) — `createCli({
+- **Package + README**: the installed @appelent/cli README, or packages/cli/README.md in the explicitly resolved appelent-packages checkout — `createCli({
   appName })` factory, the `cli/index.ts` bin-wrapper pattern, config/env
   conventions, and the `CliCommand` extension seam for app-specific domain
   commands.
@@ -36,7 +37,7 @@ also what Codex reads), not this skill:
    app via the `commands: CliCommand[]` option — **not** in the shared package.
    Keep `@appelent/cli` generic; never fork it into the app.
 4. Record in `appelent.json` at the app root (same commit as the wiring):
-   `"cli": { "version": 1 }`.
+   `"cli": { "version": <current FEATURE.md version> }`.
 
 ## Publishing model
 
@@ -55,9 +56,9 @@ workflow.
 ## Self-improvement
 
 When this skill's work is done, follow the reflection in
-`../web-feature/references/self-improvement.md` — notice what was unclear
+`../development-feature/references/self-improvement.md` — notice what was unclear
 or underspecified about *this skill* and offer to file it back to the catalog.
 Nothing noteworthy is the normal outcome — say nothing then.
 
-If you got here via `/web:feature apply cli`, that run's own reflection
+If you got here via `/development:feature apply cli`, that run's own reflection
 (`apply` step 6) already covers this skill — don't reflect twice.

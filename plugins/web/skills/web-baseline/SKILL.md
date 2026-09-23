@@ -1,13 +1,26 @@
 ---
-name: baseline
-description: Use when bootstrapping a freshly scaffolded TanStack Start + Convex + Clerk + Cloudflare Workers app to the Appelent baseline, or when auditing an existing app for missing scripts, Convex env vars, wrangler deploy config, Windows/Biome hygiene, shared @appelent packages, or the GitHub Actions PR preview workflow. Applies the Appelent "baseline" feature and records it in the app's appelent.json.
+name: web-baseline
+description: Use when implementing the web-specific Appelent baseline for TanStack Start, Convex, Clerk, and Cloudflare, including its stable numbered adoption steps.
 ---
 
 # Baseline
 
+Read the app's docs/guidelines/shared/README.md and applicable sets when present, then docs/guidelines/app.md. The development plugin owns the baseline FEATURE record; this skill is the web procedure. Preserve its existing feature ID and versioned partial records. If that FEATURE owner is unavailable, report adoption evidence without guessing or stamping its version.
+
+
 ## Overview
 
 Brings a freshly scaffolded app up to my standard baseline for this stack. **Merge, don't clobber** — add what's missing, leave correct existing config alone. If something already deviates intentionally (e.g. a project-specific script), flag it rather than silently overwriting.
+
+## Execution mechanism
+
+Read [CLI adoption](references/cli-adoption.md) before applying any step.
+Use supported developer recipes for mechanical edits; numbered steps below
+retain the app-owned requirements and stable legacy selectors. The CLI
+adoption reference supersedes old manual credential-routing and broad
+env-copy commands. Resolve customized wiring by reviewing its conflict,
+not by overwriting it with a template. For UI review read
+[scoped guidance](references/ui-guidance.md).
 
 ## My stack (what "baseline" means)
 
@@ -49,8 +62,8 @@ Before starting, check (use `node -e "...existsSync..."` instead of `ls ... 2>/d
 
 ## Task
 
-Each numbered step below is individually addressable via `/web:feature
-apply baseline --step <n>` (see `web-feature`'s `steps`/`apply`
+Each numbered step below is individually addressable via `/development:feature
+apply baseline --step <n>` (see `development-feature`'s `steps`/`apply`
 subcommands) — useful for re-running or catching up a single step (e.g.
 step 8's PR-preview workflow) on an app that's already on baseline for
 everything else. Every step still assumes the "Gathering context" section
@@ -192,24 +205,18 @@ Ensure a `wrangler.jsonc` exists in my standard shape. For a TanStack Start app 
   ```ts
   exclude: [...configDefaults.exclude, "**/.claude/**", "**/node_modules_OLD/**", "**/node_modules.*/**"]
   ```
-- Ensure a `.worktreeinclude` file exists at the repo root. The Claude Code
-  desktop app reads this when creating a git worktree and copies any
-  gitignored files matching its patterns into the new worktree, preserving
-  directory structure — without it, a fresh worktree is missing local env
-  files and machine-specific settings, breaking the session until someone
-  notices and copies them by hand. Add if missing:
-  ```
-  .env
-  .env.local
-  .env.*
-  **/.claude/settings.local.json
-  ```
+- **Workspace isolation.** Use the host's setup action to run Appelent
+  workspace preparation. Review existing `.worktreeinclude` and host copy
+  rules: remove broad env/deploy-key copying only as part of the reviewed
+  migration to a working setup hook. Copy only needed allowlisted local
+  settings. The workspace selects its own backend and renders final URLs
+  and scoped credentials; parent deployment state must not select it.
 
 ### 7. Shared `@appelent` packages (private registry)
 
-I maintain shared packages under the `@appelent` npm scope on GitHub Packages, published for reuse across these apps: `@appelent/auth` (Clerk/Convex auth glue, part of the default baseline), `@appelent/cli` (command-line scaffolding — opt-in, applied via the `cli` feature / `/appelent apply cli`), and `@appelent/i18n` (locale engine — opt-in, applied via the `i18n` feature, see step 13). Treat this as a growing list, not a one-off.
+I maintain shared packages under the `@appelent` npm scope on GitHub Packages, published for reuse across these apps: `@appelent/auth` (Clerk/Convex auth glue, part of the default baseline), `@appelent/cli` (command-line scaffolding — opt-in, applied via the `cli` feature / `/development:feature apply cli`), and `@appelent/i18n` (locale engine — opt-in, applied via the `i18n` feature, see step 13). Treat this as a growing list, not a one-off.
 
-**When you create or generalize a shared `@appelent/*` package, its own README is the source of truth for consuming it** — tool-agnostic, so Codex and humans read it too (Claude skills are invisible to Codex, so a skill can never be the source). Keep the consuming app's `CLAUDE.md`, this step, and any feature skill as short *pointers* to that README, never duplicated copies. `@appelent/cli`'s README (`packages/cli/README.md`) is the reference shape; when adding a README to a package that lacks one (e.g. `@appelent/auth`, whose integration currently lives only here in step 7), follow it.
+**When you create or generalize a shared `@appelent/*` package, its own README is the source of truth for consuming it** — tool-agnostic, so Codex and humans read it too (package consumption must also work outside an agent session). Keep the consuming app's `CLAUDE.md`, this step, and any feature skill as short *pointers* to that README, never duplicated copies. `@appelent/cli`'s README (`appelent-packages/packages/cli/README.md`) is the reference shape; when adding a README to a package that lacks one (e.g. `@appelent/auth`, whose integration currently lives only here in step 7), follow it.
 
 - Check whether the app should depend on `@appelent/auth` (it should, if the app hand-rolls Clerk↔Convex auth wiring that the shared package already covers — compare against how `workouts` uses it). Add it to `dependencies` if missing and applicable; don't force it onto apps that don't need it.
 - Ensure the project's **committed** `.npmrc` maps the scope to the registry, and only that — no token:
@@ -224,7 +231,7 @@ I maintain shared packages under the `@appelent` npm scope on GitHub Packages, p
 - For CI (`.github/workflows/*`, e.g. the PR preview workflow): confirm the install step writes the token to `~/.npmrc` from a repo/org secret (commonly `NODE_AUTH_TOKEN` or `secrets.GITHUB_TOKEN` if it has `read:packages`) before `install` runs. Flag it if missing — installs will fail on a runner with no token configured.
 - Confirm `pnpm-workspace.yaml` (if pnpm) doesn't need an `onlyBuiltDependencies` or `overrides` entry for the package — check its own postinstall/peer requirements.
 - `@appelent/auth` ships a dev-only `TestLoginButton` (gated by `shouldShowTestLogin`) — see step 10 for how Claude should use it when previewing an auth-gated app.
-- **`@appelent/cli`** (command-line scaffolding: generic `auth`/`config` commands + a `CliCommand` extension seam) — add it only if the app should ship a CLI. Integration is a thin `cli/index.ts` wrapper calling `createCli({ appName: "<app>" })` plus a `"<app>": "tsx cli/index.ts"` script; add a `cli:smoke` wrapper script and a small CI workflow that installs with GitHub Packages auth and runs it. App-specific domain commands go in the app via the `commands` option, never forked into the package. The package README (`packages/cli/README.md`) is the source of truth; `workouts` is the reference implementation. Most apps do not need to publish themselves for CLI use; publish `@appelent/cli` only for shared CLI behavior changes, then bump consuming app dependencies. If added, record the `cli` feature in `appelent.json` (see the feature-record section below).
+- **`@appelent/cli`** (command-line scaffolding: generic `auth`/`config` commands + a `CliCommand` extension seam) — add it only if the app should ship a CLI. Integration is a thin `cli/index.ts` wrapper calling `createCli({ appName: "<app>" })` plus a `"<app>": "tsx cli/index.ts"` script; add a `cli:smoke` wrapper script and a small CI workflow that installs with GitHub Packages auth and runs it. App-specific domain commands go in the app via the `commands` option, never forked into the package. The package README (`appelent-packages/packages/cli/README.md`) is the source of truth; `workouts` is the reference implementation. Most apps do not need to publish themselves for CLI use; publish `@appelent/cli` only for shared CLI behavior changes, then bump consuming app dependencies. If added, record the `cli` feature in `appelent.json` (see the feature-record section below).
 
 ### 8. GitHub Actions — PR preview workflow
 
@@ -596,19 +603,19 @@ never raw `tsc`/`vitest`/`biome` — no per-project detection.
   // Look for the actual auth-token line, not just the registry host — a ~/.npmrc
   // that only maps the scope (no _authToken) must still get the token appended.
   const hasAuth =
-	existsSync(npmrc) &&
-	readFileSync(npmrc, "utf8").includes("//npm.pkg.github.com/:_authToken=");
+  	existsSync(npmrc) &&
+  	readFileSync(npmrc, "utf8").includes("//npm.pkg.github.com/:_authToken=");
   if (token && !hasAuth) {
-	appendFileSync(npmrc, `\n//npm.pkg.github.com/:_authToken=${token}\n`);
+  	appendFileSync(npmrc, `\n//npm.pkg.github.com/:_authToken=${token}\n`);
   }
   // (b) Install deps once per fresh container. Skipped locally (node_modules exists).
   if (!existsSync("node_modules")) {
-	try { execSync("corepack enable", { stdio: "ignore" }); } catch {}
-	execSync("pnpm install --frozen-lockfile", { stdio: "inherit" });
+  	try { execSync("corepack enable", { stdio: "ignore" }); } catch {}
+  	execSync("pnpm install --frozen-lockfile", { stdio: "inherit" });
   }
   // (c) Context for the session.
   try {
-	console.log(`branch: ${execSync("git branch --show-current").toString().trim()}`);
+  	console.log(`branch: ${execSync("git branch --show-current").toString().trim()}`);
   } catch {}
   ```
 
@@ -689,7 +696,7 @@ never raw `tsc`/`vitest`/`biome` — no per-project detection.
     ```
 - [ ] **(f) Plugin workflow skills** — do not seed `review-app`,
   `review-session`, or `upgrade-deps` into `.claude/skills/` during baseline.
-  They live in the **toolbox** plugin (`AppElent/agent-plugins`,
+  They live in the **workflow** plugin (`AppElent/agent-plugins`,
   `/workflow:skill`), which is the source of truth.
   Use the plugin-provided `review-app`,
   `review-session`, and `upgrade-deps`
@@ -698,10 +705,10 @@ never raw `tsc`/`vitest`/`biome` — no per-project detection.
 
   Also handle legacy app repos: if `.claude/skills/review-app`,
   `.claude/skills/review-session`, or `.claude/skills/upgrade-deps` still
-  exists, remove it. If one differs from the workflow plugin copy, flag the diff
+  exists, remove it. If one differs from the workflow copy, flag the diff
   before deleting; project-specific behavior belongs in the app's docs or the
   `verify` skill, while general process fixes belong back in
-  `plugins/workflow/skills/<name>`. Do not create or relocate review-note
+  `agent-plugins/plugins/workflow/skills/<name>`. Do not create or relocate review-note
   markdown folders during baseline; current review workflow skills file GitHub
   issues instead.
 
@@ -750,15 +757,17 @@ For the current repo:
 
 1. **Write or update `appelent.json` at the app root.** Its shape is
    `{ "features": { "<name>": { "version": <int>, "options": { ... } } } }`.
-   Ensure `features.baseline = { "version": 4 }`, plus an entry for every other
+   Read the current version from development's baseline FEATURE.md; record it only for completed
+   steps, plus an entry for every other
    feature applied during this bootstrap pass — e.g. `auth` if the app uses
    `@appelent/auth`, `cli` if it ships a CLI (step 7), `i18n` if step 13 ran.
    Merge, don't clobber — leave existing feature entries and their `options`
    alone. Commit `appelent.json` together with the wiring it records.
-   A full bootstrap pass like this one always writes the plain
-   `{ "version": n }` shape (every step ran). A partial `apply baseline
+   Write the plain `{ "version": n }` shape only when all applicable steps
+   and their verification are complete; a CLI configuration receipt alone
+   is insufficient. A partial `apply baseline
    --step <n>` instead records `{ "version": n, "steps": [n, ...] }` — see
-   `web-feature`'s `apply` subcommand; its absence means "fully
+   `development-feature`'s `apply` subcommand; its absence means "fully
    applied," so this bootstrap flow never needs to write it.
 2. **Stamp the managed block** in the app's `CLAUDE.md` and `AGENTS.md` using
    the exact text in the "Managed block" section at the end of this file (the
@@ -792,7 +801,7 @@ for multi-language support on this app. Unlike steps 1–12, there's no
 "detect and fix drift" pass for i18n: a single-language app isn't missing
 anything by default.
 
-When I do ask for it, apply the `i18n` feature (`/appelent apply i18n`). It
+When I do ask for it, apply the `i18n` feature (`/development:feature apply i18n`). It
 installs the shared
 `@appelent/i18n` package (locale resolution, `fmt`/`plural`, React
 provider/hooks, SSR locale resolution for TanStack Start, optional Clerk
@@ -994,9 +1003,9 @@ contracts below rather than adding a duplicate.
 
   ```ts
   useToast(): {
-	success: (title: string, description?: string) => string;
-	error: (title: string, description?: string) => string;   // priority "high", longer timeout
-	info: (title: string, description?: string) => string;
+  	success: (title: string, description?: string) => string;
+  	error: (title: string, description?: string) => string;   // priority "high", longer timeout
+  	info: (title: string, description?: string) => string;
   }
   ```
 
@@ -1015,11 +1024,11 @@ contracts below rather than adding a duplicate.
   ```ts
   const confirm = useConfirm();
   const ok = await confirm({
-	title: "Delete this workout?",
-	description: "This cannot be undone.",
-	confirmLabel: "Delete workout", // verb-specific — never "OK"/"Yes"
-	cancelLabel: "Cancel",          // optional, defaults to "Cancel"
-	destructive: true,              // red styling on the confirm button
+  	title: "Delete this workout?",
+  	description: "This cannot be undone.",
+  	confirmLabel: "Delete workout", // verb-specific — never "OK"/"Yes"
+  	cancelLabel: "Cancel",          // optional, defaults to "Cancel"
+  	destructive: true,              // red styling on the confirm button
   }); // Promise<boolean> — false on cancel, Escape, or dismiss
   ```
 
@@ -1086,31 +1095,15 @@ Replace everything between the markers in the app's `CLAUDE.md` and `AGENTS.md`
 <!-- appelent-managed:start -->
 ## Appelent Managed Project
 
-This is an Appelent-managed app. Opted-in features and their options are
-recorded in `appelent.json`. Feature definitions live in the `appelent`
-plugin (locally installed) or https://github.com/AppElent/agent-plugins
-(`skills/<feature>/FEATURE.md`).
+App capability evidence is recorded in appelent.json. Agent guidance lives in
+AppElent/agent-plugins: development owns app-wide setup and capabilities;
+web/mobile own platform procedures; workflow owns reviews and maintenance.
+Use /development:feature to inspect or apply a capability.
 
-Before adding functionality that could apply to multiple apps, check the
-feature catalog first. To add or update a feature, use `/appelent`.
-
-### UI hygiene
-
-- Async views render a skeleton (`ui/skeleton.tsx`) matching the final
-  layout — never a blank page or a spinner-only screen.
-- Destructive actions go through `useConfirm()` (`ui/confirm-dialog.tsx`) —
-  never `window.confirm`. Confirm buttons use verb-specific labels
-  ("Delete workout", not "OK").
-- Mutations: the trigger button shows a pending state (`Button loading`);
-  errors always surface an error toast (`useToast().error`); success toasts
-  only when the result isn't already visible on screen. Forms keep the
-  user's input on failure.
-- List/dashboard views define an `EmptyState` (`ui/empty-state.tsx`) —
-  never an unexplained blank region.
-- Every route defines a document title (route `head`); route errors render
-  the shared error fallback with retry, not a white screen.
-- Icon-only buttons get an `aria-label`. Dialogs/popovers use Base UI
-  primitives only.
+Before implementation or review, read docs/guidelines/shared/README.md when
+present and the sets relevant to the task, then docs/guidelines/app.md for
+app-specific decisions. Keep guideline installation receipts separate from
+proof that screens meet the guidelines.
 <!-- appelent-managed:end -->
 ```
 
@@ -1121,5 +1114,5 @@ When this skill's work is done, follow the reflection in
 or underspecified about *this skill* and offer to file it back to the catalog.
 Nothing noteworthy is the normal outcome — say nothing then.
 
-If you got here via `/web:feature apply baseline`, that run's own reflection
-(`apply` step 6) already covers this skill — don't reflect twice.
+If you got here via `/development:feature apply baseline`, that run's own reflection
+already covers this skill — don't reflect twice.
